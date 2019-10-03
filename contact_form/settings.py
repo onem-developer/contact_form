@@ -136,4 +136,4 @@ STATIC_URL = '/static/'
 
 # app related vars
 API_URL = 'https://api.postmarkapp.com/email'
-APP_NAME = 'test23'  # do we still need this if the app name is pre-registered ? eg #contact_kfc
+APP_NAME = 'test23'

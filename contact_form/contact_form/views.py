@@ -31,7 +31,7 @@ class View(_View):
             raise PermissionDenied
 
         data = jwt.decode(token.replace('Bearer ', ''), key='87654321')
-        user, created = User.objects.get_or_create(id=data['sub'])
+        user, created = User.objects.get_or_create(id=data['sub'], username=str(data['sub']))
         user.is_admin = data['is_admin']
 
         return user
@@ -137,5 +137,5 @@ class HomeView(View):
             return self.to_response(
                 Menu(body=[MenuItem(description=result_msg)],
                      header='contact',
-                     footer='menu')
+                     footer='--Reply MENU')
             )
