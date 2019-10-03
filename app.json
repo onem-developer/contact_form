@@ -1,8 +1,8 @@
 {
   "name": "Contact form Demo app",
   "description": "Contact form Demo app",
-  "repository": "https://github.com/onemcommunications/contact-form",
-  "keywords": ["django", "onem", "contact-form", "sms", "app"],
+  "repository": "https://github.com/onem-developer/contact_form",
+  "keywords": ["django", "onem", "contact_form", "sms", "app"],
   "env": {
       "DISABLE_COLLECTSTATIC": "1"
   }

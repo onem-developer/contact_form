@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn contact-form.wsgi --log-file - 
+web: gunicorn contact_form.wsgi --log-file -

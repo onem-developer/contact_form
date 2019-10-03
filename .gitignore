@@ -73,4 +73,4 @@ target/
 .idea/
 .project
 
-contact-form/settings/local.py
+contact_form/settings/local.py
