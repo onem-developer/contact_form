@@ -71,16 +71,12 @@ class HomeView(View):
                          description='What would you like to know/inquire?',
                          header='contact',
                          footer='Reply with your message'),
+                FormItem(type=FormItemType.string,
+                         name='user_email',
+                         description='Let us know your email address.',
+                         header='contact',
+                         footer='Reply with email address')
             ]
-
-            if not self.get_user().email:
-                form_items.append(
-                    FormItem(type=FormItemType.string,
-                             name='user_email',
-                             description='Let us know your email address.',
-                             header='contact',
-                             footer='Reply with email address')
-                )
 
 
         form = Form(body=form_items,
@@ -91,7 +87,7 @@ class HomeView(View):
                                   completion_status_show=False))
 
         return self.to_response(form)
-    
+
     def post(self, request):
         if self.get_user().is_admin:
             company_profile = AppAdmin.objects.get_or_create(
@@ -118,18 +114,30 @@ class HomeView(View):
                 'Content-Type': 'application/json',
                 'X-Postmark-Server-Token': qs[0].email_token
             }
+
             body = {
                 'To': qs[0].company_email,
-                'From': qs[0].company_email,  # `From:` field needs to be a registered Sender signature
-                'Subject': 'Inquiry from: {user_email}'.format(
+                'From': self.request.POST['user_email'],
+                'Subject': u'Inquiry from: {user_email}'.format(
                     user_email=request.POST.get('user_email', user.email)
                 ),
                 'TextBody': request.POST['user_message']
             }
             
-            send_email = requests.post(settings.API_URL, headers=headers,json=body)
+            send_email = requests.post(settings.API_URL, headers=headers, json=body)
 
             if send_email.status_code == 200:
+                # send confirmation email to user
+                body = {
+                    'To': self.request.POST['user_email'],
+                    'From': qs[0].company_email,
+                    'Subject': u'Email delivered!',
+                    'TextBody': u''.join([
+                        'Your email was received by {company_email}!'.format(company_email=qs[0].company_email),
+                        'We will get back to you as soon as possible'])
+                }
+                send_email = requests.post(settings.API_URL, headers=headers, json=body)
+
                 result_msg = u'Your email was successfully sent! You will shortly receive a response to your inquiry!'
             else:
                 result_msg = u'An error occured. Please try again later!'
