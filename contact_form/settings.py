@@ -136,4 +136,4 @@ STATIC_URL = '/static/'
 
 # app related vars
 API_URL = 'https://api.postmarkapp.com/email'
-APP_NAME = 'test23'
+APP_NAME = ''  # to be added by developer

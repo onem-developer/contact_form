@@ -59,7 +59,7 @@ class HomeView(View):
                          footer='Reply with company email address'),
                 FormItem(type=FormItemType.string,
                          name='email_token',
-                         description='Please provide your Postmark email token.',
+                         description='Please provide your email delivery service token.',
                          header='admin',
                          footer='Reply with token')
             ]
